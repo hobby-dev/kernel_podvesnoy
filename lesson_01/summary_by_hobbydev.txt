@@ -1,0 +1,56 @@
+Конспект 14.09.2016
+СПб, Воскова 7, клуб Вега
+
+Антон Luxoft, c/c++, embedded linux, media
+
+Course plan:
+1) c basics
+2)  gcc 
+    make
+    GNU binutils
+    gdb
+    autotools
+3) system programming (how to communicate with the kernel)
+4) drivers (devices, kernel communication)
+5) kernel itself
+
+Course structure: every part welcome-lesson, than advanced lessons
+                    LESS programming topics and algorythms (trees, sortings, etc)
+Course tools: linux, shell, vim (remote edit through SSH), gcc, clang, 
+
+CPU <==> MEMORY (insturctions + data)
+
+Assembler bound to CPU architeture,
+    very hard to write, low-level language,
+    transparent translation into CPU codes
+    Summary: not very convenient.
+
+High level languages:
+    development process speed-up
+    Fortran (Formula translator) 1957 - first high-level language, used by mathematicians
+    Algol-58, Algol-60, Cpl (Cambridge programming language), BCPL (Basic Combine programmong lang)
+    B, C 1972 By K. Tompson and D. Ritche
+Compiled VS interpreted langs:
+    compiled: source code goes through compiler program, which produces machine byte-code
+    interpreted: source code goes to interpreter program, then:
+        a) simple interpreter: every line of code results in some action by interpreter (bash, perl)
+        b) промежуточного типа: source code compiled into intermediate byte-code, 
+            which in turn gets executed by virtual machine(?) (python, Java)
+@see hello.c
+
+Program creation steps: 
+ (where by program we mean Machine-Code in memory, ready to be executed)
+1) Source code (like hello.c)
+2) pre-processing (inlude: insert contents of stdio.h -> into .i and .ii files)
+3) compilation (check program syntax "," ";" then semantics: variables declaration and usage order) -> .asm file
+4) translation -> .o file (объектный файл)
+5) linking -> executable file
+
+gcc -save-temps option keeps all intermediate files for later study
+
+Object file is like a puzzle of machine code, incomplete puzzle. Its missing "system" insructions like "puts" etc
+Linker completes missing parts of the puzzle by searching through system libraries, other .o files. 
+Static VS dynamic linking
+To produce object file, we should call gcc with "-c" flag and specify .o file
+We can make .o files containing other .o files with -c option
+
