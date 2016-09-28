@@ -1,21 +1,21 @@
 #include <stdio.h>
 
-int main()
+int get_temperature()
 {
-    int temp = 26;
-    
+    int temperature = 0;
     printf("Input temperature:\n");
-    scanf("%d", &temp);
+    scanf("%d", &temperature);
+    return temperature;
+}
 
-//    temp > 0 ? printf("Above zero\n") : printf("Below zero\n");
-    printf("Temperature is %s\n", temp > 0 ? "above zero" : "below zero");
-
-    if (temp > 25)
+void print_temperature(int temperature)
+{
+    if (temperature > 25)
     {
         printf("Hot!\n");
     }
     else
-        switch(temp)
+        switch(temperature)
         {
             case 25:
                 printf("warm\n");
@@ -30,5 +30,11 @@ int main()
                 printf("cold\n");
                 break;
         }
+}
+
+int main()
+{
+    print_temperature(get_temperature());
     return 0;
 }
+
