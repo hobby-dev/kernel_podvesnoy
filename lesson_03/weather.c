@@ -7,6 +7,9 @@ int main()
     printf("Input temperature:\n");
     scanf("%d", &temp);
 
+//    temp > 0 ? printf("Above zero\n") : printf("Below zero\n");
+    printf("Temperature is %s\n", temp > 0 ? "above zero" : "below zero");
+
     if (temp > 25)
     {
         printf("Hot!\n");
