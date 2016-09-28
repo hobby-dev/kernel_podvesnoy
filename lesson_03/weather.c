@@ -12,12 +12,20 @@ int main()
         printf("Hot!\n");
     }
     else
-    {
-        if (temp > 20 && temp <= 25)
-            printf("Warm!\n");
-        else
-            printf("Cold!\n");
-    }
-
+        switch(temp)
+        {
+            case 25:
+                printf("warm\n");
+                break;
+            case 24:
+                printf("good\n");
+                break;
+            case 23:
+                printf("still good\n");
+                break;
+            default:
+                printf("cold\n");
+                break;
+        }
     return 0;
 }
