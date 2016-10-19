@@ -15,13 +15,15 @@ void copy_str1(char str_dest[], const char str_src[])
 
 void copy_str2(char * str_dst, const char * str_src)
 {
-    int i = 0;
-    while( *(str_src + i) != '\0')
-    {
-        *(str_dst + i) = *(str_src + i);
-        ++i;
-    }
-    *(str_dst + i) = '\0';
+//    int i = 0;
+//    while( *(str_src + i) != '\0')
+//    {
+//        *(str_dst + i) = *(str_src + i);
+//        ++i;
+//    }
+//    *(str_dst + i) = '\0';
+
+    for (; ( *str_dst = *str_src ) != '\0'; str_dst++, str_src++);
 }
 
 int main()
