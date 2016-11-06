@@ -2,6 +2,16 @@
 
 #define SIZE 5 
 
+int find_minimal_index(const int * data, const int size, int current_minimal_index)
+{
+    for (int i = current_minimal_index; i < size; ++i)
+    {
+        if (data[i] < data[current_minimal_index])
+            current_minimal_index = i;
+    }
+    return current_minimal_index;
+}
+
 void swap(int data[], int from, int to)
 {
     if (from != to)
@@ -16,15 +26,10 @@ void sort(int data[], int size)
 {
     int first_unsorted_index = 0;
     const int last_index = size - 1;
-    // loop invariant: there is always at least 'first_unsorted' elements in data[]
+    // loop invariant: there is always at least 'first_unsorted_index' sorted elements in data[]
     while (first_unsorted_index < last_index)
     {
-        int current_minimal_index = first_unsorted_index;
-        for (int i = current_minimal_index; i < size; ++i)
-        {
-            if (data[i] < data[current_minimal_index])
-                current_minimal_index = i;
-        }
+        int current_minimal_index = find_minimal_index(data, size, first_unsorted_index);
         swap(data, current_minimal_index, first_unsorted_index);
         ++first_unsorted_index;
     }

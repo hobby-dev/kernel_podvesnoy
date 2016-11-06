@@ -7,12 +7,12 @@ sorting: sorting.c
 stack.o: stack.c stack.h
 	gcc -fPIC -c stack.c -o stack.o
 
-libstack.a: stack.o
+static_stack_lib: stack.o
 	ar rcs libstack.a stack.o
 
-libstack.so: stack.o
+shared_stack_lib: stack.o
 	gcc -shared -o libstack.so stack.o
 
-stack_test: stack_test.c libstack.a
+stack_test: stack_test.c static_stack_lib
 	gcc stack_test.c -o stack_test -L. -lstack
 
