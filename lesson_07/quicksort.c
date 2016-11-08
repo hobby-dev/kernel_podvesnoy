@@ -19,43 +19,37 @@ void quick_sort(int32_t * data, int size)
         return;
 
     int l = 0, r = size-1;
-    int m = size/2;
+    int m = r; // select last element as pivot
 
     for (;;)
     {
-        while (data[l] < data[m])
+        while (data[l] <= data[m] && l < m)
         {
             ++l;
         }
-        while (data[r] > data[m])
+        while (data[r] >= data[m] && r > m)
         {
             --r;
         }
         if (l < r) 
         {
-            if (data[l] != data[r])
-            {
-                swap(data, l, r);
-                // keep m:
-                if (l == m)
-                    m = r;
-                else if (r == m)
-                    m = l;
-            }
-            else
-            {
-                // special case for input like: 0, X, X, 0, X, 0, 0
-                ++l;
-            }
+            assert(data[l] != data[r]);
+            swap(data, l, r);
+            // keep m:
+            if (l == m)
+                m = r;
+            else if (r == m)
+                m = l;
         }
         else
         {
-            assert(l == r);
+            assert(l == r && l == m);
             break;
         }
     }
-    quick_sort(data, l);
-    quick_sort(data + l, size - l);
+    quick_sort(data, m); // sort left part
+    ++m;
+    quick_sort(data + m, size - m); // sort right part
 }
 
 int main()

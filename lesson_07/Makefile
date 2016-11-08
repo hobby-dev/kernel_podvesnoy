@@ -4,6 +4,9 @@ all: sorting stack_test libstack.so
 sorting: sorting.c
 	gcc sorting.c -o sorting
 
+quicksort: quicksort.c
+	gcc quicksort.c -o quicksort 
+
 stack.o: stack.c stack.h
 	gcc -fPIC -c stack.c -o stack.o
 
