@@ -16,6 +16,12 @@ static_stack_lib: stack.o
 shared_stack_lib: stack.o
 	gcc -shared -o libstack.so stack.o
 
-stack_test: stack_test.c static_stack_lib
-	gcc stack_test.c -o stack_test -L. -lstack
+stack_test: tests/stack_test.c static_stack_lib
+	cp libstack.a stack.h tests/
+	cd tests && gcc stack_test.c -o stack_test -L. -lstack
 
+binary_tree.o: binary_tree.c binary_tree.h
+	cc -fPIC -c binary_tree.c -o binary_tree.o
+
+static_binary_tree_lib: binary_tree.o
+	ar rcs libbinary_tree.a binary_tree.o
