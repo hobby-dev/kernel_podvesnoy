@@ -25,3 +25,7 @@ binary_tree.o: binary_tree.c binary_tree.h
 
 static_binary_tree_lib: binary_tree.o
 	ar rcs libbinary_tree.a binary_tree.o
+
+binary_tree_test: tests/binary_tree_test.c static_binary_tree_lib
+	cp libbinary_tree.a binary_tree.h tests/
+	cd tests && gcc binary_tree_test.c -o binary_tree_test -L. -lbinary_tree
