@@ -28,6 +28,7 @@ int main()
         }
         else
             perror("fwrite");
+        fclose(out);
     }
     else
         perror("fopen");
