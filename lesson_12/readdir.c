@@ -24,6 +24,10 @@ int main()
             perror("readdir");
         }
     }
+
+    const int result = closedir(this_dir);
+    if (result != 0)
+        perror("closedir");
     
     return 0;
 }
