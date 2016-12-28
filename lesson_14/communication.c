@@ -27,9 +27,31 @@ int main()
     }
     else
     {
+        second_pid = fork();
+        if (second_pid == 0)
+        {
+            dup2(pipefd[0], 0); // read from pipe instead stdin
+            close(pipefd[0]);
+            close(pipefd[1]);
 
+            execlp("cat", "cat", NULL); //exec with path
+        }
+        else
+        {
+            close(pipefd[0]);
+            close(pipefd[1]);
 
+            pid_t ret_pid;
+            int status;
 
+            while ((ret_pid = wait(&status)) > 0)
+            {
+                if (ret_pid == first_pid)
+                    printf("p1 finish\n");
+                if (ret_pid == second_pid)
+                    printf("p2 finish\n");
+            }
+        }
     }
     return 0;
 }
