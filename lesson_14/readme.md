@@ -5,11 +5,17 @@
 Как передавать данные между процессами?
 
 Конвееры:
-```ls /home | grep programs```
+```
+ls /home | grep programs
+```
 
 # Перенаправляение вывода
-Средствами Bash:
-```$ls home > output.txt```
+
+Средствами Bash: 
+
+```
+$ls home > output.txt
+```
 
 Для любого процесса создаются 3 файловых дескриптора:
 0 - stdion
@@ -17,11 +23,14 @@
 2 - stderr
 
 Мы хотим подменить stdout своим файлом. Как это сделать?
-```dup()
-dup2()```
+```
+dup()
+dup2()
+```
 
 В демонах мы должны оборвать все файловые дескрипторы input-output:
-```for (int i = 0; i < NR_OPEN; ++i)
+```
+for (int i = 0; i < NR_OPEN; ++i)
     close(i);
 open("/dev/null", RDWR);
 dup(0);
