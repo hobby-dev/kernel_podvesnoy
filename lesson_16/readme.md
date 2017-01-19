@@ -36,6 +36,7 @@ connect(); - установить соединение
 accept(); - принять соединение
 
 server:
+
 1.  socket();
 2.  bind();
 3.  listen();
@@ -48,6 +49,7 @@ server:
 
 
 client:
+
 1.  socket();
 2.  connect(); 
 3.  close();
