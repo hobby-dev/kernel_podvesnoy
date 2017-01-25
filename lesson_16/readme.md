@@ -1,4 +1,5 @@
 # Sockets and Named Pipes
+Literature: Advanced Linux programming
 
 Для родственных процессов мы можем наладить одностороннее взаимодействие через Pipe (за счёт наследования FD между родственными процессамми).
 man 3 popen
@@ -41,6 +42,7 @@ server:
 3.  listen();
 4.  accept(); (блокирует и ожидает соединения)
 (после accept() создаётся новый сокет для обмена)
+(часто делает в отдельный поток, не процесс)
 5.  read()/write()
 6.  close()
 
@@ -49,9 +51,12 @@ server:
 
 client:
 1.  socket();
-2.  connect(); 
+2.  connect();  // блокируется пока сервер не сделает accept()
 3.  close();
 
 
 man 7 unix 
 man 7 ip 
+
+
+
