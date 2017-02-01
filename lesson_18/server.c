@@ -3,7 +3,10 @@
 #include <sys/socket.h>
 #include <sys/un.h> // sockaddr_un
 #include <unistd.h> // read?
-// #include <sys/types.h> // sockaddr?
+
+#include <sys/select.h>
+#include <sys/time.h>
+
 
 #define MAX_CLIENTS 100500
 
@@ -30,6 +33,15 @@ int main()
     int client_fd = accept(sock_fd, (struct sockaddr *)&client_info, &client_info_len);
 
     char message[10] = {0};
+    
+    ret = read(0, message, 10);
+    if (ret < 0)
+    {
+        perror("read");
+        exit(1);
+    }
+    printf("Read from stdin: %s\n", message);
+
     ret = read(client_fd, message, 10);
 
     if (ret < 0)
