@@ -44,47 +44,47 @@ int main()
     int ready_descriptor, ready_count;
     while(1)
     {
-    ready_count = select(client_fd+1, &read_descriptors, NULL, NULL, &timeout);
+        ready_count = select(client_fd+1, &read_descriptors, NULL, NULL, &timeout);
 
-    if (ready_count < 0)
-    {
-        perror("select");
-        exit(1);
-    }
-
-    if (ready_count > 0)
-    {
-        if (FD_ISSET(0, &read_descriptors))
+        if (ready_count < 0)
         {
-            ret = read(0, message, 10);
-            if (ret < 0)
-            {
-                perror("read");
-                exit(1);
-            }
-            printf("Read from stdin: %s\n", message);
+            perror("select");
+            exit(1);
         }
 
-        if (FD_ISSET(client_fd, &read_descriptors))
+        if (ready_count > 0)
         {
-            ret = read(client_fd, message, 10);
-
-            if (ret < 0)
+            if (FD_ISSET(0, &read_descriptors))
             {
-                perror("read");
-                exit(1);
+                ret = read(0, message, 10);
+                if (ret < 0)
+                {
+                    perror("read");
+                    exit(1);
+                }
+                printf("Read from stdin: %s\n", message);
             }
 
-            printf("Message received: %s\n", message);
+            if (FD_ISSET(client_fd, &read_descriptors))
+            {
+                ret = read(client_fd, message, 10);
 
+                if (ret < 0)
+                {
+                    perror("read");
+                    exit(1);
+                }
+
+                printf("Message received: %s\n", message);
+
+            }
         }
-    }
-    else // ready_count == 0
-    {
+        else // ready_count == 0
+        {
 
-        printf("Timeout!\n");
-        break;
-    }
+            printf("Timeout!\n");
+            break;
+        }
     }
 
 
