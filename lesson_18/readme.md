@@ -6,14 +6,15 @@
 fcntl
 ```
 
+# select
 Но мы рассмотрим другой вариант - мультиплексное чтение\записть:
 * man 2 select
-* man 2 poll
-
 
 Наш план: сервер и у него 2 файловых дескриптора - client VS stdin
 
 Возьмём server.c из lesson_16
 
 
+# poll
 
+man 2 poll
