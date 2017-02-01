@@ -33,24 +33,60 @@ int main()
     int client_fd = accept(sock_fd, (struct sockaddr *)&client_info, &client_info_len);
 
     char message[10] = {0};
-    
-    ret = read(0, message, 10);
-    if (ret < 0)
+
+    fd_set read_descriptors;
+
+    FD_ZERO(&read_descriptors);
+    FD_SET(0, &read_descriptors);
+    FD_SET(client_fd, &read_descriptors);
+
+    struct timeval timeout = {10, 0};
+    int ready_descriptor, ready_count;
+    while(1)
     {
-        perror("read");
+    ready_count = select(client_fd+1, &read_descriptors, NULL, NULL, &timeout);
+
+    if (ready_count < 0)
+    {
+        perror("select");
         exit(1);
     }
-    printf("Read from stdin: %s\n", message);
 
-    ret = read(client_fd, message, 10);
-
-    if (ret < 0)
+    if (ready_count > 0)
     {
-        perror("read");
-        exit(1);
+        if (FD_ISSET(0, &read_descriptors))
+        {
+            ret = read(0, message, 10);
+            if (ret < 0)
+            {
+                perror("read");
+                exit(1);
+            }
+            printf("Read from stdin: %s\n", message);
+        }
+
+        if (FD_ISSET(client_fd, &read_descriptors))
+        {
+            ret = read(client_fd, message, 10);
+
+            if (ret < 0)
+            {
+                perror("read");
+                exit(1);
+            }
+
+            printf("Message received: %s\n", message);
+
+        }
+    }
+    else // ready_count == 0
+    {
+
+        printf("Timeout!\n");
+        break;
+    }
     }
 
-    printf("Message received: %s\n", message);
 
     close(client_fd);
     close(sock_fd);
