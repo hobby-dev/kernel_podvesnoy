@@ -4,7 +4,7 @@
 #include <sys/un.h> // sockaddr_un
 #include <unistd.h> // read?
 
-#include <sys/select.h>
+#include <poll.h>
 #include <sys/time.h>
 
 
@@ -39,29 +39,31 @@ int main()
 
     char message[10] = {0};
 
-    fd_set read_descriptors;
-
-    FD_ZERO(&read_descriptors);
-    FD_SET(0, &read_descriptors);
-    FD_SET(client_fd, &read_descriptors);
-
-    struct timeval timeout = {10, 0};
     int ready_descriptor, ready_count;
+
+    struct pollfd poll_descriptors[2] = { 0 };
+    poll_descriptors[0].fd = 0;
+    poll_descriptors[0].events = POLLIN;
+
+
+    poll_descriptors[1].fd = client_fd;
+    poll_descriptors[1].events = POLLIN;
+
     while(1)
     {
-        ready_count = select(client_fd+1, &read_descriptors, NULL, NULL, &timeout);
+        ready_count = poll(poll_descriptors, 2, 10000);
 
         if (ready_count < 0)
         {
-            perror("select");
+            perror("poll");
             exit(1);
         }
 
         if (ready_count > 0)
         {
-            if (FD_ISSET(0, &read_descriptors))
+            if (poll_descriptors[0].revents > 0) 
             {
-                ret = read(0, message, 10);
+                ret = read(poll_descriptors[0].fd, message, 10);
                 if (ret < 0)
                 {
                     perror("read");
@@ -70,18 +72,15 @@ int main()
                 printf("Read from stdin: %s\n", message);
             }
 
-            if (FD_ISSET(client_fd, &read_descriptors))
+            if (poll_descriptors[1].revents > 0) 
             {
-                ret = read(client_fd, message, 10);
-
+                ret = read(poll_descriptors[1].fd, message, 10);
                 if (ret < 0)
                 {
                     perror("read");
                     exit(1);
                 }
-
-                printf("Message received: %s\n", message);
-
+                printf("Read from socket: %s\n", message);
             }
         }
         else // ready_count == 0
