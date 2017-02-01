@@ -25,7 +25,7 @@ int main()
     ret = listen(sock_fd, MAX_CLIENTS);
 
     struct sockaddr_un client_info;
-    int client_info_len;
+    int client_info_len = sizeof(client_info);
 
     int client_fd = accept(sock_fd, (struct sockaddr *)&client_info, &client_info_len);
 
