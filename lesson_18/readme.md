@@ -18,3 +18,6 @@ fcntl
 # poll
 
 man 2 poll
+
+# linux-only 
+man 2 epoll
