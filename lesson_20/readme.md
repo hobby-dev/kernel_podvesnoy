@@ -61,5 +61,7 @@ $ aclocal
 $ automake --add-missing
 $ touch NEWS README AUTHORS ChangeLog
 $ automake
+$ autoconf
 ```
+Check out auto tools online manual!
 
