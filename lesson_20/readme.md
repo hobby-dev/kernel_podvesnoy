@@ -55,4 +55,11 @@ ls bin
 3. ???????
 4. configure
 
+# Пример: helloworld
+```
+$ aclocal
+$ automake --add-missing
+$ touch NEWS README AUTHORS ChangeLog
+$ automake
+```
 
