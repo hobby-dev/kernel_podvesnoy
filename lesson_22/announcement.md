@@ -5,14 +5,31 @@
 
 Желательно заранее установить следующие пакеты:
 * cmake (3.5 и выше)
-* clang (gcc тоже ок)
-* libevent-2.0-5
+* clang (для gcc использования закомментируйте строку со словом clang в файле build.sh)
+* libevent-dev
 * libavl-dev
 * libenet-dev
 * git
 
+Установить всё вышеперечисленное одной командой:
+```
+$ sudo apt-get install cmake clang git libevent-dev libavl-dev libenet-dev
+```
+
 
 Не лишним будет сразу подготовить репозиторий и, по возможности, изучить исходный код:
 ```
-git clone https://github.com/hobby-dev/udm.git
+$ git clone https://github.com/hobby-dev/udm.git
+$ cd udm/
+$ ls
+$ cd udm_proxy
+$ ls
 ```
+
+Собрать можно командой:
+```
+./build.sh
+```
+
+В папке tests можно найти, собрать и запустить тестовый клиент и сервер.
+Если запустить на одной машине сервер, proxy и клиент (в такой последовательности), то клиент должен успешно подключиться и начать обмен данными с сервером через прокси.
