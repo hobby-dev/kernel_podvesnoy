@@ -56,3 +56,5 @@ $ build/bin/edm_test_server
 ```
 git pull
 ```
+# P.S
+Чтобы задавать вопросы и получать ответы оперативно вобавляйтесь в [чат (Slack)](https://podvesnoy.slack.com/messages/kernel/ "наш Slack") (для этого нужно написать [Олегу](https://vk.com/gesundes "vk.com/gesundes"))
