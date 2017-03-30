@@ -27,3 +27,6 @@
 | exit()                | exit_group()  | do_group_exit     |
 | pthread_exit()()      | _exit()       | do_exit           |
 
+kernel/exit.c - там do_exit
+do_task_dead - вызывает код планировщика!
+release_task - удаляет саму структуру
