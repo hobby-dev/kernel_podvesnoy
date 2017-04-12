@@ -42,5 +42,16 @@ struct data_struct
     struct list_head data_list_elem;
 }
 ```
+Вся функциональность ядра по работе со списками опирается на этот механизм list_head.
+Также нужно иметь указатель на голову списка - это отдельный struct list_head, который указывает на первый элемент.
+Большинство ф-ций по работе со списками будут требовать голову списка.
+```
+static LIST_HEAD(data_list);
+
+struct data_struct new_element = {.some_value = 42,
+                                  .data_list_elem = LIST_HEAD_INIT(new_element.data_list_elem)};
+list_add(&new_element.data_list_elem, &data_list);
+
+```
 
 
