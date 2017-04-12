@@ -9,11 +9,18 @@ int a[N];
     a++;\
     b++;\
 } while (0)
+
 #define print_type(type_name) {\
     type_name test_variable;\
     printf(#type_name "'s size of %ld\n", sizeof(test_variable));\
 }
 
+#define make_type(type,name) {\
+    struct type ## name { \
+        type value; \
+    }; \
+    printf(#type #name " size = %ld\n", sizeof(struct type ## name));\
+}
 
 int main()
 {
@@ -31,6 +38,8 @@ int main()
     printf("j, k %d, %d\n", j, k);
 
     print_type(int);
+
+    make_type(double, wow);
 
     return 0;
 }
