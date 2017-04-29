@@ -24,9 +24,10 @@
 # Завершение процесса
 системный вызов exit() ( man 2 exit и man 3 exit )
 
-| c lib                 | system call   | kernel function   |
-| exit()                | exit_group()  | do_group_exit     |
-| pthread_exit()()      | _exit()       | do_exit           |
+| c lib | system call | kernel function |
+|---|---|---|
+| exit() | exit_group() | do_group_exit |
+| pthread_exit()() | _exit() | do_exit |
 
 kernel/exit.c - там do_exit
 do_task_dead - вызывает код планировщика!
