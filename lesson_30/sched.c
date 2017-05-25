@@ -18,7 +18,6 @@ int print_process_list(struct process * head)
 {
     while(head != NULL)
     {
-        //printf("P: %d; TC: %d\n", head->priority, head->time_to_complete);
         printf("id: %d, total_time: %d, total_time_waited: %d\n", head->id, head->total_time, head->total_time_waited);
         head = head->next;
     }
@@ -56,12 +55,17 @@ int create_process_list_from_file(const char * filename, struct process ** head)
     return 0;
 };
 
-void schedule(struct process ** head, struct process ** completed)
+// Round-robin schedule
+void schedule_rr(struct process ** head, struct process ** completed)
 {
     struct process * first = *head;
+    // execute current process
     first->total_time += 1;
+    first->age = 0;
+    first->time_to_complete -= 1;
 
-    struct process * last = *head;
+    // increase age and find last
+    struct process * last = first;
     while(last->next != NULL)
     {
         last = last->next;
@@ -70,22 +74,23 @@ void schedule(struct process ** head, struct process ** completed)
         last->total_time += 1;
     }
 
-    first->age = 0;
-    first->time_to_complete -= 1;
-
+    // check if we completed process
     if (first->time_to_complete == 0)
     {
+        // pass execution to next waiting process
         *head = first->next;
+        // move completed process to completed list
         first->next = *completed;
         *completed = first;
     }
     else if (first != last)
     {
+        // rotate waiting list
         *head = first->next;
         last->next = first;
         first->next = NULL;
     }
-
+    // else: we have only one process, nothing to do
 };
 
 int main()
@@ -99,7 +104,7 @@ int main()
 
     while (active_head != NULL)
     {
-        schedule(&active_head, &completed_head);
+        schedule_rr(&active_head, &completed_head);
     }
     print_process_list(completed_head);
 
