@@ -14,6 +14,7 @@
 # Мои результаты:
 
 schedule_rr:
+
     priority: 3, TC: 110, total_time_waited: 400
     priority: 6, TC: 100, total_time_waited: 399
     priority: 2, TC: 40, total_time_waited: 340
@@ -29,6 +30,7 @@ schedule_rr:
     priority: 1, TC: 10, total_time_waited: 109
 
 schedule_age:
+
     priority: 0, TC: 30, total_time_waited: 480
     priority: 1, TC: 30, total_time_waited: 465
     priority: 1, TC: 30, total_time_waited: 464
