@@ -11,6 +11,7 @@ struct process
     int total_time_waited;
     int total_time;
     // list:
+    struct process * prev;
     struct process * next;
 };
 
@@ -73,6 +74,55 @@ void schedule_rr(struct process ** head, struct process ** completed)
         last->total_time_waited += 1;
         last->total_time += 1;
     }
+
+    // check if we completed process
+    if (first->time_to_complete == 0)
+    {
+        // pass execution to next waiting process
+        *head = first->next;
+        // move completed process to completed list
+        first->next = *completed;
+        *completed = first;
+    }
+    else if (first != last)
+    {
+        // rotate waiting list
+        *head = first->next;
+        last->next = first;
+        first->next = NULL;
+    }
+    // else: we have only one process, nothing to do
+};
+
+// Age-wise priority schedule:
+void schedule_age(struct process ** head, struct process ** completed)
+{
+    struct process * first = *head;
+    struct process * last = first;
+    struct process * target = NULL;
+    {
+    int target_effecive_priority = 0;
+    struct process * current = first;
+    // increase age and find last
+    // and target processes
+    while(current != NULL)
+    {
+        current->age += 1;
+        current->total_time_waited += 1;
+        current->total_time += 1;
+        int effective_priority = current->age + current->priority * 10;
+        if (effective_priority > target_effecive_priority)
+        {
+            target_effecive_priority = effective_priority;
+            target = current;
+        }
+        last = current;
+        current = current->next;
+    }
+    }
+
+    // execute target process
+    target->total_time_waited -= 1;
 
     // check if we completed process
     if (first->time_to_complete == 0)
