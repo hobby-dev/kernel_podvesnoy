@@ -29,6 +29,7 @@ int create_process_list_from_file(const char *filename, struct process **head) {
   if (input_file) {
     int ret;
     int id = 0;
+    struct process *prev = NULL;
     do {
       int new_process_priority = 0;
       int new_process_complete_time = 0;
@@ -42,7 +43,8 @@ int create_process_list_from_file(const char *filename, struct process **head) {
         current->priority = new_process_priority;
         current->time_to_complete = new_process_complete_time;
         current->next = NULL;
-        current->prev = NULL;
+        current->prev = prev;
+        prev = current;
         *head = current;
         head = &current->next;
       }
