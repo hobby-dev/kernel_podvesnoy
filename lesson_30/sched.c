@@ -42,6 +42,7 @@ int create_process_list_from_file(const char *filename, struct process **head) {
         current->priority = new_process_priority;
         current->time_to_complete = new_process_complete_time;
         current->next = NULL;
+        current->prev = NULL;
         *head = current;
         head = &current->next;
       }
@@ -87,12 +88,12 @@ void schedule_rr(struct process **head, struct process **completed) {
 
 // Age-wise priority schedule:
 void schedule_age(struct process **head, struct process **completed) {
-  struct process *first = *head;
-  struct process *last = first;
+  struct process *last = NULL;
   struct process *target = NULL;
+
   {
     int target_effecive_priority = 0;
-    struct process *current = first;
+    struct process *current = *head;
     // increase age and find last
     // and target processes
     while (current != NULL) {
@@ -111,21 +112,24 @@ void schedule_age(struct process **head, struct process **completed) {
 
   // execute target process
   target->total_time_waited -= 1;
+  target->age = 0;
+  target->time_to_complete -= 1;
 
   // check if we completed process
-  if (first->time_to_complete == 0) {
-    // pass execution to next waiting process
-    *head = first->next;
-    // move completed process to completed list
-    first->next = *completed;
-    *completed = first;
-  } else if (first != last) {
-    // rotate waiting list
-    *head = first->next;
-    last->next = first;
-    first->next = NULL;
+  if (target->time_to_complete == 0) {
+    if (target->prev)
+      target->prev->next = target->next;
+    else
+      *head = target->next;
+
+    if (target->next)
+      target->next->prev = target->prev;
+    target->prev = NULL;
+    target->next = *completed;
+    if (target->next)
+      target->next->prev = target;
+    *completed = target;
   }
-  // else: we have only one process, nothing to do
 };
 
 int main() {
@@ -137,7 +141,7 @@ int main() {
     perror("Create process list");
 
   while (active_head != NULL) {
-    schedule_rr(&active_head, &completed_head);
+    schedule_age(&active_head, &completed_head);
   }
   print_process_list(completed_head);
 
