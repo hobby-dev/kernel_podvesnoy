@@ -16,8 +16,8 @@ struct process {
 
 int print_process_list(struct process *head) {
   while (head != NULL) {
-    printf("id: %d, total_time: %d, total_time_waited: %d\n", head->id,
-           head->total_time, head->total_time_waited);
+    printf("priority: %d, TC: %d, total_time_waited: %d\n",
+           head->priority, head->total_time - head->total_time_waited, head->total_time_waited);
     head = head->next;
   }
   return 0;
@@ -143,7 +143,7 @@ int main() {
     perror("Create process list");
 
   while (active_head != NULL) {
-    schedule_age(&active_head, &completed_head);
+    schedule_rr(&active_head, &completed_head);
   }
   print_process_list(completed_head);
 
